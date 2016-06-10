@@ -1,0 +1,14 @@
+.kpi-list-item {
+  display: table-row;
+}
+
+.kpi-field-name {
+  display: table-cell;
+  font-weight: bold;
+  padding: 0.15rem;
+}
+
+.kpi-field-value {
+  display: table-cell;
+  padding-left: 15px;
+}
