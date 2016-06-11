@@ -133,7 +133,6 @@ class KPICtrl extends PanelCtrl {
 
   backendSrv:         any;
   dashboardSrv:       any;
-  dashboardLoaderSrv: any;
   datasourceSrv:      any;
   templateSrv:        any;
   timeSrv:            any;
@@ -144,10 +143,7 @@ class KPICtrl extends PanelCtrl {
 
   dashboard:        Object;
   dashboardOptions: Object[];
-  panelDefaults = {
-    gridSize: 50,
-    maxRows: 10,
-  };
+  panelDefaults = {};
 
   interval:   any;
   range:      any;
@@ -159,13 +155,12 @@ class KPICtrl extends PanelCtrl {
     super($scope, $injector);
     _.defaults(this.panel, this.panelDefaults);
 
-    this.backendSrv         = $injector.get('backendSrv');
-    this.dashboardSrv       = $injector.get('dashboardSrv');
-    this.dashboardLoaderSrv = $injector.get('dashboardLoaderSrv');
-    this.datasourceSrv      = $injector.get('datasourceSrv');
-    this.templateSrv        = $injector.get('templateSrv');
-    this.timeSrv            = $injector.get('timeSrv');
-    this.$location          = $injector.get('$location');
+    this.backendSrv    = $injector.get('backendSrv');
+    this.dashboardSrv  = $injector.get('dashboardSrv');
+    this.datasourceSrv = $injector.get('datasourceSrv');
+    this.templateSrv   = $injector.get('templateSrv');
+    this.timeSrv       = $injector.get('timeSrv');
+    this.$location     = $injector.get('$location');
 
     this.events.on('init-edit-mode', this.onInitEditMode.bind(this));
     this.events.on('refresh', this.onRefresh.bind(this));
@@ -176,7 +171,7 @@ class KPICtrl extends PanelCtrl {
   };
 
   private onInitEditMode() {
-    this.addEditorTab('Options', 'public/plugins/kpi/editor.html');
+    this.addEditorTab('Options', 'public/plugins/grafana-kpi-panel/editor.html');
     this.editorTabIndex = 1;
   };
 
@@ -251,8 +246,8 @@ class KPICtrl extends PanelCtrl {
         if (!datum && datum.datapoints) { return; }
           var value = this.lastNonNull(datum.datapoints);
           var state = panel.getThresholdState(value);
-          if (!panelValues[panelState]) { panelValues[panelState] = []; }
-          panelValues[panelState] = {value: value, target: datum.target};
+          if (!panelValues[state]) { panelValues[state] = []; }
+          panelValues[state].push({value: value, target: datum.target});
           if (state > panelState) { panelState = state; }
       }
 

@@ -1,11 +1,10 @@
 {
   "type": "panel",
   "name": "KPI",
-  "id": "kpi",
+  "id": "grafana-kpi-panel",
   "staticRoot": ".",
 
   "info": {
-    "description": "The KPI panel is a Grafana plugin used for summarizing dashboards, based on thresholds set in panels.",
     "author": {
       "name": "Mark Flickinger",
       "url": "https://github.com/mark-5"

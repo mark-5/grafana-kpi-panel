@@ -29,15 +29,15 @@ class KPITooltip {
   };
 
   render(d) {
-    var states = ['OK', 'WARNING', 'CRITICAL'];
-    var state  = states[d.state];
+    var state     = d.state;
+    var stateDesc = ['OK', 'WARNING', 'CRITICAL'];
 
     var cmp = d.thresholds.reversed ? 'min' : 'max';
-    var metric = _[cmp](d.values, v => { return v.value; });
+    var metric = _[cmp](d.values[state], m => { return m.value; });
 
     var table = [
       ['Name', d.panel],
-      ['State', states[d.state]],
+      ['State', stateDesc[state]],
       ['Target', metric.target],
       ['Thresholds', 'warning='+d.thresholds.warning+', '+'critical='+d.thresholds.critical],
       ['Value', metric.value]
@@ -46,8 +46,8 @@ class KPITooltip {
     var template = _.template(''
       + '<% _.each(table, function(row) { %>'
       +   '<div class="kpi-list-item">'
-      +     '<div class="kpi-field-name"><%= row[0] %></div>'
-      +     '<div class="kpi-field-value"><%= row[1] %></div>'
+      +     '<div class="kpi-field-name">  <%= row[0] %> </div>'
+      +     '<div class="kpi-field-value"> <%= row[1] %> </div>'
       +   '</div>'
       + '<% }) %>'
     );
