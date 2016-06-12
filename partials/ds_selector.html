@@ -1,0 +1,26 @@
+<div class="gf-form-group">
+  <div class="gf-form-inline">
+
+    <div class="gf-form">
+      <label class="gf-form-label">
+        <i class="icon-gf icon-gf-dashboard"></i>
+      </label>
+      <label class="gf-form-label">
+        Panel data source
+      </label>
+
+      <metric-segment segment="ctrl.dsSegment" style-mode="select"
+                      get-options="ctrl.getOptions()"></metric-segment>
+    </div>
+
+    <div class="gf-form gf-form--offset-1">
+      <button class="btn btn-inverse gf-form-btn"
+              ng-click="ctrl.addDashboard(ctrl.dsSegment)"
+              ng-hide="ctrl.dsSegment.fake">
+        <i class="fa fa-plus"></i>&nbsp;
+        Add
+      </button>
+    </div>
+
+  </div>
+</div>

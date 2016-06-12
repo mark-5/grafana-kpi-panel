@@ -29,29 +29,29 @@ class KPITooltip {
   };
 
   render(d) {
-    var state     = d.state;
     var stateDesc = ['OK', 'WARNING', 'CRITICAL'];
+    var state     = d.state;
 
-    var cmp = d.thresholds.reversed ? 'min' : 'max';
-    var metric = _[cmp](d.values[state], m => { return m.value; });
-
-    var table = [
+    var fields = [
       ['Name', d.panel],
       ['State', stateDesc[state]],
-      ['Target', metric.target],
       ['Thresholds', 'warning='+d.thresholds.warning+', '+'critical='+d.thresholds.critical],
-      ['Value', metric.value]
     ];
+    var metrics = _.chain(d.values[state])
+      .map(metric => { return [metric.target, metric.value]; })
+      .sortBy(metric => { return metric.value })
+      .value();
+    if (!d.thresholds.reversed) { metrics.reverse(); }
 
     var template = _.template(''
       + '<% _.each(table, function(row) { %>'
       +   '<div class="kpi-list-item">'
-      +     '<div class="kpi-field-name">  <%= row[0] %> </div>'
-      +     '<div class="kpi-field-value"> <%= row[1] %> </div>'
+      +     '<div class="kpi-field-name"><%= row[0] %></div>'
+      +     '<div class="kpi-field-value"><%= row[1] %></div>'
       +   '</div>'
       + '<% }) %>'
     );
-    return this.getElem().html(template({table: table}));
+    return this.getElem().html(template({table: fields}) + '<hr/>' + template({table: metrics}));
   };
 
   onMouseover(d) {
@@ -67,10 +67,9 @@ class KPITooltip {
   };
 
   onClick(d) {
-    var self = this;
-    return self.$timeout(() => {
-      self.removeElem();
-      self.$location.url(d.uri);
+    return this.$timeout(() => {
+      this.removeElem();
+      this.$location.url(d.uri);
     });
   };
 
@@ -92,7 +91,6 @@ export class KPIRenderer {
     this.root      = root;
     this.$location = $location;
     this.$timeout  = $timeout;
-
   };
 
   distributeCells(data, height, width) {
@@ -121,7 +119,6 @@ export class KPIRenderer {
   };
 
   render(data, height, width) {
-    var self = this;
     this.remove();
 
     var distribution = this.distributeCells(data, height, width);

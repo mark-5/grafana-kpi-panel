@@ -1,0 +1,7 @@
+<div class="query-editor-rows gf-form-group">
+  <div ng-repeat="target in ctrl.panel.targets" ng-class="{'gf-form-disabled': target.hide}">
+    <kpi-query panel-ctrl="ctrl" target="target"></kpi-query>
+  </div>
+</div>
+
+<kpi-ds-selector panel-ctrl="ctrl"></kpi-ds-selector>
