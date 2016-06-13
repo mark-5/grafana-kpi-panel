@@ -9,7 +9,6 @@ export class KPIQueryCtrl {
   targetName: any;
 
   constructor($scope, $injector) {
-    super($scope, $injector);
     this.getTargetName();
   };
 
