@@ -56,8 +56,11 @@ export class KPICtrl extends PanelCtrl {
     this.dashboardOptions = this.getDashboardOptions();
 
     var selected = this.dashboards.then(dashboards => {
-        var ids = _.groupBy(this.panel.targets, target => { return target.dashboard; });
-        return _.filter(dashboards, dash => { return _.has(ids, dash.id) });
+        var ids = _.chain(this.panel.targets)
+          .filter(  target => { return !target.hide;     })
+          .groupBy( target => { return target.dashboard; })
+          .value();
+        return _.filter(dashboards, dash => { return _.has(ids, dash.id); });
     });
 
     this.data = selected
