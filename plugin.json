@@ -10,7 +10,7 @@
       "url": "https://github.com/mark-5"
     },
     "links": [
-      {"name": "GitHub", "url": "https://github.com/mark-5/grafana/tree/kpi"}
+      {"name": "GitHub", "url": "https://github.com/mark-5/grafana-kpi-panel"}
     ],
     "version": "0.0.1"
   }
