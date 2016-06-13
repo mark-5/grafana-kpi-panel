@@ -1,9 +1,8 @@
 ///<reference path="../../../public/app/headers/common.d.ts" />
 import angular from 'angular';
 import _ from 'lodash';
-import {QueryCtrl} from 'app/plugins/sdk';
 
-export class KPIQueryCtrl extends QueryCtrl {
+export class KPIQueryCtrl {
 
   panelCtrl:  any;
   target:     any;
