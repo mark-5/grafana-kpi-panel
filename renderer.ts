@@ -39,7 +39,7 @@ class KPITooltip {
     ];
     var metrics = _.chain(d.values[state])
       .map(metric => { return [metric.target, metric.value]; })
-      .sortBy(metric => { return metric.value })
+      .sortBy(metric => { return metric[1] })
       .value();
     if (!d.thresholds.reversed) { metrics.reverse(); }
 
@@ -93,16 +93,42 @@ export class KPIRenderer {
     this.$timeout  = $timeout;
   };
 
+  calculateOffset(params) {
+    var offset = {x: 0, y: 0};
+    var colsUsed = 1, rowsUsed = 1;
+    if (params.cells < params.cols) {
+      colsUsed = params.cells;
+      rowsUsed = 1;
+    } else {
+      colsUsed = params.cols;
+      rowsUsed = Math.ceil(params.cells / colsUsed);
+    }
+
+    offset.x += (params.maxCols - colsUsed) / 2;
+    offset.y += (params.maxRows - rowsUsed) / 2;
+
+    return offset;
+  };
+
   distributeCells(data, height, width) {
     var nearestRoot = Math.ceil(Math.sqrt(data.length));
     var rows = Math.ceil(nearestRoot * (height / width));
     var cols = Math.ceil(nearestRoot * (width  / height));
 
-    var curRow = 0, curCol = 0;
+    var size   = Math.min((height / rows), (width / cols));
+    var offset = this.calculateOffset({
+      cells:   data.length,
+      cols:    cols,
+      rows:    rows,
+      maxCols: (width  / size),
+      maxRows: (height / size),
+    });
+
+    var curCol = offset.x, curRow = offset.y;
     var cells = _.map(data, datum => {
-      var cell = _.extend({}, datum, {row: curRow, col: curCol});
-      if (curCol === cols - 1) {
-        curCol = 0;
+      var cell = _.extend({}, datum, {col: curCol, row: curRow});
+      if (curCol === (cols + offset.x) - 1) {
+        curCol = offset.x;
         curRow += 1;
       } else {
         curCol += 1;
@@ -114,7 +140,7 @@ export class KPIRenderer {
       cells: cells,
       rows:  rows,
       cols:  cols,
-      size:  Math.min((height / rows), (width / cols)),
+      size:  size,
     };
   };
 
@@ -127,8 +153,8 @@ export class KPIRenderer {
 
     var kpi = d3.select(this.root[0])
       .append('svg')
-        .attr('width',   d => { return '100%'; })
-        .attr('height',  d => { return '100%'; })
+        .attr('height', () => { return height; })
+        .attr('width',  () => { return width;  })
       .append('g')
       .selectAll('.heatmap')
       .data(distribution.cells, d => { return d.col + ':' + d.row; })

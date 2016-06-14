@@ -224,7 +224,7 @@ export class KPICtrl extends PanelCtrl {
       this.getData().then(data => {
         if (data && data.length) {
           ctrl.calculatePanelHeight();
-          var height = this.containerHeight;
+          var height = ctrl.height;
           var width  = $(container[0]).width();
           renderer.render(data, height, width);
         }
