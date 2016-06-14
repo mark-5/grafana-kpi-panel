@@ -25,6 +25,7 @@ export class KPICtrl extends PanelCtrl {
     targets: []
   };
 
+  loading:    boolean;
   interval:   any;
   range:      any;
   rangeRaw:   any;
@@ -67,7 +68,10 @@ export class KPICtrl extends PanelCtrl {
       .then( this.queryDashboards.bind(this)   )
       .then( this.handleQueryResult.bind(this) );
 
-    this.data.then( this.events.emit.bind(this.events, 'data-received') );
+    this.loading = true;
+    this.data
+      .then( this.events.emit.bind(this.events, 'data-received') )
+      .then( _ => { this.loading = false } );
   };
 
   getDashboards() {
