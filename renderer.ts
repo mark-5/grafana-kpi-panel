@@ -94,8 +94,7 @@ export class KPIRenderer {
   };
 
   calculateOffset(params) {
-    var offset = {x: 0, y: 0};
-    var colsUsed = 1, rowsUsed = 1;
+    var colsUsed, rowsUsed;
     if (params.cells < params.cols) {
       colsUsed = params.cells;
       rowsUsed = 1;
@@ -104,10 +103,10 @@ export class KPIRenderer {
       rowsUsed = Math.ceil(params.cells / colsUsed);
     }
 
-    offset.x += (params.maxCols - colsUsed) / 2;
-    offset.y += (params.maxRows - rowsUsed) / 2;
-
-    return offset;
+    return {
+      x: (params.maxCols - colsUsed) / 2,
+      y: (params.maxRows - rowsUsed) / 2,
+    };
   };
 
   distributeCells(data, height, width) {
