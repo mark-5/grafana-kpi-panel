@@ -12,6 +12,11 @@ export class KPIQueryCtrl {
     this.getTargetName();
   };
 
+  addVariable() {
+    if (!this.target.scopedVars) { this.target.scopedVars = []; }
+    this.target.scopedVars.push({});
+  };
+
   getTargetName() {
     return this.panelCtrl.getDashboardOptions().then(options => {
       if (!this.target) { return; }

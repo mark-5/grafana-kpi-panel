@@ -10,5 +10,21 @@
       <div class="gf-form-label gf-form-label--grow"></div>
     </div>
 
+    <div class="gf-form">
+      <label class="gf-form-label">
+        <a class="pointer" ng-click="ctrl.addVariable()">
+          <i class="fa fa-plus"></i>
+          &nbsp; Add variable
+        </a>
+      </label>
+    </div>
+
+  </div>
+
+  <div ng-repeat="scopedVar in ctrl.target.scopedVars">
+    <kpi-variable target="ctrl.target"
+                  index="$index"
+                  panel-ctrl="ctrl.panelCtrl"
+                  variable="scopedVar"></kpi-variable>
   </div>
 </query-editor-row>

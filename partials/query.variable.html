@@ -1,0 +1,25 @@
+<div class="gf-form-inline">
+
+  <div class="gf-form">
+    <label class="gf-form-label query-keyword width-7">Variable</label>
+    <metric-segment segment="ctrl.variableNameSegment" style-mode="select"
+                    on-change="ctrl.setVariableName()"
+                    get-options="ctrl.getVariableNames()"></metric-segment>
+    <value-select-dropdown variable="ctrl.variable"
+                           on-updated="ctrl.updateVariable()"
+                           ng-disabled="!ctrl.variable"
+                           get-values-for-tag="ctrl.getVariableValues()">
+    </value-select-dropdown>
+  </div>
+
+  <div class="gf-form gf-form--grow">
+    <div class="gf-form-label gf-form-label--grow"></div>
+  </div>
+
+  <div class="gf-form">
+    <label class="gf-form-label">
+      <a class="pointer" ng-click="ctrl.removeVariable()"><i class="fa fa-minus"></i></a>
+    </label>
+  </div>
+
+</div>

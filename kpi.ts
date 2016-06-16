@@ -48,7 +48,7 @@ export class KPICtrl extends PanelCtrl {
   };
 
   onInitEditMode() {
-    this.addEditorTab('Options', 'public/plugins/grafana-kpi-panel/partials/editor.html');
+    this.addEditorTab('Metrics', 'public/plugins/grafana-kpi-panel/partials/metrics.html');
     this.editorTabIndex = 1;
   };
 
@@ -193,7 +193,8 @@ export class KPICtrl extends PanelCtrl {
       dashboardScopedVars[name] = value;
     }
 
-    return _.extend({}, dashboardScopedVars, panel.scopedVars || {});
+    var panelScopedVars = panel ? panel.scopedVars : null;
+    return _.extend({}, dashboardScopedVars, panelScopedVars || {});
   };
 
   issueQueries(datasourceName: string, targets: Object[], scopedVars: Object) {
